@@ -12,7 +12,7 @@ RUN yarn install || npm ci
 COPY . .
 
 # Запускаем сборку production-версии проекта
-RUN yarn run build || npm run build
+RUN npm run build
 
 # Финальный этап сборки для продакшена
 FROM nginx:alpine
