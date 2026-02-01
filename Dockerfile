@@ -6,7 +6,7 @@ WORKDIR /app
 
 # Копируем package.json и yarn.lock (или npm-пакеты) для кеширования зависимостей
 COPY package*.json yarn.lock* ./
-RUN yarn install || npm ci
+RUN npm install
 
 # Копируем остальные файлы приложения
 COPY . .
