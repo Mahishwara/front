@@ -56,6 +56,6 @@ export const Header: React.FC = () => {
                     Выйти из аккаунта
                 </Button>
             </div>
-		</HeaderExtension>
+			</HeaderExtension>
     );
 }

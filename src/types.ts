@@ -46,7 +46,15 @@ export type Status = {
 }
 
 
-export type Token ={
+export type Application = {
+	id: number;
+	id_student: number;
+	id_vacancy: number;
+	id_status: number;
+	vacancy?: Vacancies;
+};
+
+export type Token = {
 	token: string;
 };
 	export type LoginData = {

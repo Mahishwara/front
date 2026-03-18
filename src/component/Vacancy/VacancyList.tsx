@@ -1,16 +1,17 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { Button, message, Space, Table } from "antd";
+import { Button, message, Table } from "antd";
 import axios from "axios";
+import React from "react";
 import { User, Vacancies, LevelSkill } from "../../types";
 import { Header } from "../Base/Header";
-import { useEffect, useState } from "react";
+import { useEffect, useState, FC } from "react";
 import Cookies from "js-cookie";
 import styles from "./Vacancy.module.css";
 
 
 const { Column } = Table;
 
-export const VacancyList: React.FC = () => {
+export const VacancyList: FC = () => {
     const [userData, setUserData] = useState<User>();
     const [skills, setSkills] = useState<{ [key: string]: LevelSkill | null }>({});
     const [error, setError] = useState<string>('');
@@ -102,7 +103,7 @@ export const VacancyList: React.FC = () => {
                         title="Должность" 
                         dataIndex="post" 
                         key="post"
-                        render={(text) => <strong>{text}</strong>}
+                        render={(text: string) => <strong>{text}</strong>}
                     />
                     <Column 
                         title="Описание" 
@@ -124,7 +125,7 @@ export const VacancyList: React.FC = () => {
                         title="Оклад" 
                         dataIndex="salary" 
                         key="salary"
-                        render={(text) => <span style={{ fontWeight: "600", color: "var(--success-color)" }}>{text}000 ₽</span>}
+                        render={(text: number) => <span style={{ fontWeight: "600", color: "var(--success-color)" }}>{text}000 ₽</span>}
                     />
                     <Column 
                         title="Уровень навыков"
@@ -148,30 +149,6 @@ export const VacancyList: React.FC = () => {
                     />
                 </Table>
             </div>
-        </div>
-    );
-};
-                <Column title="Оплата" dataIndex="salary" key="salary" />
-                <Column
-                    title="Уровень навыков"
-                    key="level"
-                    render={(record: Vacancies) => {
-                        const skill = skills[record.level_skill]; // Assuming level_skill is the skill ID
-                        return skill ? skill.level : 'Неизвестный уровень'; // Display level or a fallback message
-                    }}
-                />
-                <Column
-                    title="Action"
-                    key="action"
-                    render={(_: any, record: Vacancies) => (
-                        <Space size="middle">
-                            <Button onClick={() => postApplication(record)}>
-                                Отправить заявку
-                            </Button>
-                        </Space>
-                    )}
-                />
-            </Table>
         </div>
     );
 };

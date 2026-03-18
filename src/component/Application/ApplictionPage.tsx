@@ -1,4 +1,5 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, FC } from 'react';
+import React from 'react';
 import axios from 'axios';
 import { message } from 'antd';
 import Cookies from 'js-cookie';
@@ -6,7 +7,7 @@ import { Header } from '../Base/Header';
 import { Application, Status, Vacancies } from '../../types';
 import styles from './Application.module.css';
 
-const ApplicationsPage = () => {
+const ApplicationsPage: FC = () => {
     const [studentId, setStudentId] = useState<number | null>(null);
     const [applications, setApplications] = useState<Application[]>([]);
     const [vacancies, setVacancies] = useState<{ [key: number]: Vacancies[] }>({});
@@ -60,7 +61,7 @@ const ApplicationsPage = () => {
     useEffect(() => {
         if (applications.length > 0) {
             const fetchVacancies = async () => {
-                const vacancyPromises = applications.map(async (application) => {
+                const vacancyPromises = applications.map(async (application: Application) => {
                     const vacancyId = application.id_vacancy;
                     try {
                         const response = await axios.get(import.meta.env.VITE_BASE_URL + `api/vacancies/?id=${vacancyId}`);
@@ -73,8 +74,10 @@ const ApplicationsPage = () => {
 
                 const vacanciesData = await Promise.all(vacancyPromises);
                 const vacanciesMap: { [key: number]: Vacancies[] } = {};
-                vacanciesData.forEach((item) => {
-                    vacanciesMap[item.id] = item.vacancy;
+                vacanciesData.forEach((item: Application & { vacancy?: Vacancies }) => {
+                    if (item.id && item.vacancy) {
+                        vacanciesMap[item.id] = [item.vacancy];
+                    }
                 });
                 setVacancies(vacanciesMap);
             };
@@ -88,9 +91,9 @@ const ApplicationsPage = () => {
     }
 
     const statusStats = {
-        pending: applications.filter(a => statuses.find(s => s.id === a.id_status)?.name === 'На рассмотрении').length,
-        approved: applications.filter(a => statuses.find(s => s.id === a.id_status)?.name === 'Одобрено').length,
-        rejected: applications.filter(a => statuses.find(s => s.id === a.id_status)?.name === 'Отклонено').length,
+        pending: applications.filter((a: Application) => statuses.find((s: Status) => s.id === a.id_status)?.name === 'На рассмотрении').length,
+        approved: applications.filter((a: Application) => statuses.find((s: Status) => s.id === a.id_status)?.name === 'Одобрено').length,
+        rejected: applications.filter((a: Application) => statuses.find((s: Status) => s.id === a.id_status)?.name === 'Отклонено').length,
     };
 
     return (
@@ -143,8 +146,8 @@ const ApplicationsPage = () => {
                     </div>
                 ) : (
                     <div>
-                        {applications.map(application => {
-                            const status = statuses.find(s => s.id === application.id_status);
+                        {applications.map((application: Application) => {
+                            const status = statuses.find((s: Status) => s.id === application.id_status);
                             const vacancy = vacancies[application.id] && vacancies[application.id][0];
 
                             let badgeClass = styles.badgePending;
