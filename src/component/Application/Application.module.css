@@ -1,0 +1,384 @@
+/* Application Page Styles */
+.applicationsContainer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
+}
+
+.applicationsHeader {
+  background-color: var(--bg-primary);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-xl);
+  box-shadow: var(--shadow);
+  border-bottom: 3px solid var(--primary-color);
+}
+
+.applicationsTitle {
+  margin: 0;
+  font-size: 2rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+}
+
+.applicationCount {
+  display: inline-block;
+  background-color: var(--primary-color);
+  color: white;
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.applicationsStats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: var(--spacing-md);
+  margin-top: var(--spacing-lg);
+}
+
+.statCard {
+  background-color: var(--bg-secondary);
+  padding: var(--spacing-md);
+  border-radius: var(--radius-md);
+  text-align: center;
+  border-top: 3px solid var(--primary-color);
+}
+
+.statLabel {
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+  margin-bottom: var(--spacing-xs);
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.statValue {
+  font-size: 1.75rem;
+  font-weight: 600;
+  color: var(--primary-color);
+}
+
+.filterBar {
+  display: flex;
+  gap: var(--spacing-md);
+  flex-wrap: wrap;
+  padding: var(--spacing-lg);
+  background-color: var(--bg-primary);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow);
+}
+
+.filterField {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  flex: 1;
+  min-width: 200px;
+}
+
+.filterLabel {
+  font-weight: 600;
+  color: var(--text-primary);
+  white-space: nowrap;
+  font-size: 0.9rem;
+}
+
+.filterInput,
+.filterSelect {
+  flex: 1;
+  padding: var(--spacing-md);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  font-family: inherit;
+  font-size: 0.9rem;
+}
+
+.filterInput:focus,
+.filterSelect:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(24, 144, 255, 0.1);
+}
+
+/* Application Card */
+.applicationCard {
+  background-color: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-lg);
+  margin-bottom: var(--spacing-lg);
+  box-shadow: var(--shadow);
+  transition: all 0.3s ease;
+}
+
+.applicationCard:hover {
+  box-shadow: 0 6px 12px -4px rgba(0, 0, 0, 0.15);
+  border-color: var(--primary-color);
+  transform: translateY(-2px);
+}
+
+.applicationHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: var(--spacing-lg);
+  gap: var(--spacing-md);
+}
+
+.applicationTitle {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.applicationBadge {
+  display: inline-block;
+  padding: 0.35rem 0.85rem;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.badgePending {
+  background-color: rgba(250, 173, 20, 0.1);
+  color: var(--warning-color);
+}
+
+.badgeApproved {
+  background-color: rgba(82, 196, 26, 0.1);
+  color: var(--success-color);
+}
+
+.badgeRejected {
+  background-color: rgba(245, 34, 45, 0.1);
+  color: var(--error-color);
+}
+
+.applicationInfo {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--spacing-lg);
+  margin-bottom: var(--spacing-lg);
+  padding-bottom: var(--spacing-lg);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.infoItem {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+}
+
+.infoLabel {
+  font-weight: 600;
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+  text-transform: uppercase;
+}
+
+.infoValue {
+  color: var(--text-primary);
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.applicationMessage {
+  background-color: var(--bg-secondary);
+  padding: var(--spacing-md);
+  border-radius: var(--radius-md);
+  margin-bottom: var(--spacing-lg);
+  border-left: 3px solid var(--info-color);
+}
+
+.messageLabel {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  margin-bottom: var(--spacing-sm);
+  text-transform: uppercase;
+}
+
+.messageText {
+  margin: 0;
+  color: var(--text-primary);
+  line-height: 1.6;
+}
+
+.applicationActions {
+  display: flex;
+  gap: var(--spacing-md);
+  justify-content: flex-end;
+}
+
+.actionButton {
+  padding: 0.5rem 1.25rem;
+  border: none;
+  border-radius: var(--radius-md);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 0.9rem;
+}
+
+.primaryAction {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+.primaryAction:hover {
+  background-color: var(--primary-hover);
+  box-shadow: 0 4px 8px rgba(24, 144, 255, 0.3);
+  transform: translateY(-2px);
+}
+
+.secondaryAction {
+  background-color: transparent;
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+}
+
+.secondaryAction:hover {
+  background-color: var(--bg-secondary);
+  border-color: var(--primary-color);
+}
+
+.dangerAction {
+  background-color: transparent;
+  border: 1px solid var(--error-color);
+  color: var(--error-color);
+}
+
+.dangerAction:hover {
+  background-color: rgba(245, 34, 45, 0.1);
+}
+
+/* Empty State */
+.emptyState {
+  text-align: center;
+  padding: var(--spacing-xl);
+  background-color: var(--bg-primary);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow);
+}
+
+.emptyIcon {
+  font-size: 3rem;
+  margin-bottom: var(--spacing-lg);
+  opacity: 0.3;
+}
+
+.emptyTitle {
+  margin: 0 0 var(--spacing-md) 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.emptyMessage {
+  color: var(--text-secondary);
+  margin-bottom: var(--spacing-lg);
+}
+
+/* Pagination */
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: var(--spacing-sm);
+  margin-top: var(--spacing-xl);
+}
+
+.paginationItem {
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--border-color);
+  background-color: var(--bg-primary);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 500;
+}
+
+.paginationItem:hover {
+  border-color: var(--primary-color);
+  color: var(--primary-color);
+}
+
+.paginationItem.active {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+  color: white;
+}
+
+.paginationItem.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+@media (max-width: 768px) {
+  .applicationsHeader {
+    padding: var(--spacing-lg);
+  }
+
+  .applicationsTitle {
+    font-size: 1.5rem;
+  }
+
+  .applicationsStats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .filterBar {
+    flex-direction: column;
+  }
+
+  .filterField {
+    min-width: 100%;
+  }
+
+  .applicationHeader {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .applicationInfo {
+    grid-template-columns: 1fr;
+  }
+
+  .applicationActions {
+    flex-wrap: wrap;
+  }
+
+  .actionButton {
+    flex: 1;
+    min-width: 100px;
+  }
+}
+
+@media (max-width: 480px) {
+  .applicationsTitle {
+    font-size: 1.25rem;
+  }
+
+  .applicationCard {
+    padding: var(--spacing-md);
+  }
+
+  .applicationActions {
+    flex-direction: column;
+  }
+
+  .actionButton {
+    width: 100%;
+  }
+
+  .applicationsStats {
+    grid-template-columns: 1fr;
+  }
+}

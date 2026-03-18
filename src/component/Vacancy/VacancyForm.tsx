@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { ProblemDetails, User, Vacancies } from "../../types";
 import { Header } from "../Base/Header";
 import Cookies from "js-cookie";
+import styles from "./Vacancy.module.css";
 
 
 export const VacancyForm: React.FC<{
@@ -90,64 +91,108 @@ export const VacancyForm: React.FC<{
 	return (
 		<>
 			<Header />
-			<Form
-				form={form}
-				style={{ padding: 10 }}
-				onFinish={async (data) => {
-					if (userData){
-					data.id_employer = userData.employer_id;
-					}
-					saveResource(data);
-				}}
-			>
-				<Form.Item
-					name="post"
-					label="Наименование вакансии"
-					rules={[{ required: true, message: "Обязательное поле" }]}
+			<div className={styles.vacancyForm} style={{ maxWidth: "800px", margin: "24px auto" }}>
+				<div style={{ marginBottom: "24px", paddingBottom: "16px", borderBottom: "1px solid var(--border-color)" }}>
+					<h1 style={{ margin: "0 0 8px 0", fontSize: "2rem", fontWeight: "600" }}>
+						{isNew ? "Создать новую вакансию" : "Редактировать вакансию"}
+					</h1>
+					<p style={{ margin: "0", color: "var(--text-secondary)" }}>
+						{isNew ? "Заполните информацию о вакансии" : "Обновите информацию о вакансии"}
+					</p>
+				</div>
+
+				<Form
+					form={form}
+					layout="vertical"
+					onFinish={async (data) => {
+						if (userData){
+						data.id_employer = userData.employer_id;
+						}
+						saveResource(data);
+					}}
 				>
-					<Input />
-				</Form.Item>
-				<Form.Item
-					name="description"
-					label="Описание вакансии вакансии"
-					rules={[{ required: true, message: "Обязательное поле" }]}
-				>
-					<Input />
-				</Form.Item>
-				<Form.Item
-					name="date_begin"
-					label="Дата начала стажировки в формате ГГГГ-ММ-ДД"
-					rules={[{ required: true, message: "Обязательное поле" }]}
-				>
-					<Input />
-				</Form.Item>
-				<Form.Item
-					name="date_end"
-					label="Дата конца стажировки в формате ГГГГ-ММ-ДД"
-					rules={[{ required: true, message: "Обязательное поле" }]}
-				>
-					<Input />
-				</Form.Item>
-				<Form.Item
-					name="salary"
-					label="Зарплата в тысячах рублей"
-					rules={[{ required: true, message: "Обязательное поле" }]}
-				>
-					<Input />
-				</Form.Item>
-				<Form.Item
-					name="level_skill"
-					label="Требуемый уровень навыков (1-Junior, 2-Middle, 3-Senior)"
-					rules={[{ required: true, message: "Обязательное поле" }]}
-				>
-					<Input />
-				</Form.Item>
-				<Form.Item>
-					<Button type="primary" htmlType="submit">
-						Сохранить
-					</Button>
-				</Form.Item>
-			</Form>
+					<div className={styles.formSection}>
+						<h2 className={styles.formSectionTitle}>Основная информация</h2>
+						
+						<Form.Item
+							name="post"
+							label="Должность"
+							rules={[{ required: true, message: "Обязательное поле" }]}
+						>
+							<Input className={styles.formInput} placeholder="Frontend разработчик" />
+						</Form.Item>
+
+						<Form.Item
+							name="description"
+							label="Описание вакансии"
+							rules={[{ required: true, message: "Обязательное поле" }]}
+						>
+							<Input.TextArea className={styles.formTextarea} placeholder="Описание должности и требования..." rows={4} />
+						</Form.Item>
+					</div>
+
+					<div className={styles.formSection}>
+						<h2 className={styles.formSectionTitle}>Период стажировки</h2>
+						
+						<div className={styles.formRow}>
+							<div className={styles.formGroup}>
+								<label className={styles.formLabel}>Дата начала (ГГГГ-ММ-ДД)</label>
+								<Form.Item
+									name="date_begin"
+									rules={[{ required: true, message: "Обязательное поле" }]}
+								>
+									<Input className={styles.formInput} type="date" />
+								</Form.Item>
+							</div>
+
+							<div className={styles.formGroup}>
+								<label className={styles.formLabel}>Дата окончания (ГГГГ-ММ-ДД)</label>
+								<Form.Item
+									name="date_end"
+									rules={[{ required: true, message: "Обязательное поле" }]}
+								>
+									<Input className={styles.formInput} type="date" />
+								</Form.Item>
+							</div>
+						</div>
+					</div>
+
+					<div className={styles.formSection}>
+						<h2 className={styles.formSectionTitle}>Оплата и требования</h2>
+						
+						<div className={styles.formRow}>
+							<div className={styles.formGroup}>
+								<label className={styles.formLabel}>Оклад (в тысячах рублей)</label>
+								<Form.Item
+									name="salary"
+									rules={[{ required: true, message: "Обязательное поле" }]}
+								>
+									<Input className={styles.formInput} type="number" placeholder="100" />
+								</Form.Item>
+							</div>
+
+							<div className={styles.formGroup}>
+								<label className={styles.formLabel}>Требуемый уровень навыков</label>
+								<Form.Item
+									name="level_skill"
+									rules={[{ required: true, message: "Обязательное поле" }]}
+								>
+									<Input className={styles.formInput} type="number" placeholder="1 (Junior) - 3 (Senior)" />
+								</Form.Item>
+							</div>
+						</div>
+					</div>
+
+					<Form.Item style={{ marginTop: "32px", marginBottom: "0" }}>
+						<div style={{ display: "flex", gap: "16px", justifyContent: "flex-end" }}>
+							<Button onClick={() => navigate("..")}>Отмена</Button>
+							<Button type="primary" htmlType="submit">
+								{isNew ? "Создать вакансию" : "Сохранить изменения"}
+							</Button>
+						</div>
+					</Form.Item>
+				</Form>
+			</div>
 		</>
 	);
 });

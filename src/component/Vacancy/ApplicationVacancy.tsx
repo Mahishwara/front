@@ -1,11 +1,12 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { Button, Form, Radio, Space, Table } from "antd";
+import { Button, Form, Radio, Space, Table, message } from "antd";
 import axios, { AxiosError } from "axios";
 import { useNavigate } from "react-router-dom";
-import { Application, ProblemDetails, Status, Student, LevelSkill } from "../../types"; // Ensure Skill type is imported
+import { Application, ProblemDetails, Status, Student, LevelSkill } from "../../types";
 import { Header } from "../Base/Header";
 import { useEffect, useState } from "react";
 import React from "react";
+import styles from "../Application/Application.module.css";
 
 const { Column } = Table;
 
@@ -27,7 +28,6 @@ export const VacancyApplications: React.FC<{
                 });
                 setApplicationData(response.data);
 
-                // Fetch student data for each application
                 const studentPromises = response.data.map(async (application: Application) => {
                     const studentResponse = await axios.get(import.meta.env.VITE_BASE_URL + `api/students/${application.id_student}`);
                     return { id: application.id_student, data: studentResponse.data };
@@ -70,7 +70,7 @@ export const VacancyApplications: React.FC<{
                 });
                 const skillsMap: { [key: number]: LevelSkill} = {};
                 response.data.forEach((skill: LevelSkill) => {
-                    skillsMap[skill.id] = skill; // Assuming skill has an id and level properties
+                    skillsMap[skill.id] = skill;
                 });
                 setSkills(skillsMap);
             } catch (err) {
@@ -89,6 +89,7 @@ export const VacancyApplications: React.FC<{
         },
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ["resource"] });
+            message.success('Статус заявки обновлен');
             navigate("/my-vacancies");
         },
         onError(error, context) {
@@ -117,58 +118,124 @@ export const VacancyApplications: React.FC<{
     return (
         <div>
             <Header />
-            <Table<Application> dataSource={applicationsData}>
-                <Column title="Студенты" key="students" render={(record: Application) => {
-                    const student = students[record.id_student];
-                    if (student) {
-                        const skill = skills[student.level_skill]; // Assuming level_skill is the skill ID
-                        return (
-                            <ul>
-                                <li>ФИО: {student.fio}</li> {/* Adjust according to the actual property name */}
-								<li>Роль: {student.post}</li>
-                                {skill && <li>Уровень навыка: {skill.level}</li>} {/* Display the skill level */}
-								<li>Описание навыков: {student.ability}</li>
-								<li>Специальность обучения: {student.speciality}</li>
-								<li>Курс: {student.course}</li>
-                            </ul>
-                        );
-                    }
-                    return <p>Загрузка данных студента...</p>;
-                }} />
-                <Column title="Текущий статус" key="id_status" render={(record: Application) => {
-                    const status = statuses.find(s => s.id === record.id_status);
-                    return status ? status.name : 'Неизвестный статус';
-                }} />
-                <Column
-                    title="Action"
-                    key="action"
-                    render={(_: any, record: Application) => (
-                        <Space size="middle">
-                            <Form
-                                form={form}
-                                style={{ padding: 10 }}
-                                onFinish={async (data) => {
-                                    data.id = record.id;
-                                    updateResource(data);
-                                }}
-                            >
-                                <Form.Item
-                                    name="id_status"
-                                    label="Новый статус"
-                                    rules={[{ required: true, message: "Обязательное поле" }]}
+            <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "24px" }}>
+                <h1 style={{ marginBottom: "24px", fontSize: "2rem", fontWeight: "600" }}>
+                    Заявки на вакансию
+                </h1>
+
+                {applicationsData.length === 0 ? (
+                    <div className={styles.emptyState}>
+                        <div className={styles.emptyIcon}>📨</div>
+                        <h3 className={styles.emptyTitle}>Заявок нет</h3>
+                        <p className={styles.emptyMessage}>
+                            Никто ещё не подал заявку на эту вакансию
+                        </p>
+                    </div>
+                ) : (
+                    <Table<Application> dataSource={applicationsData}>
+                        <Column 
+                            title="Студент" 
+                            key="students" 
+                            render={(record: Application) => {
+                                const student = students[record.id_student];
+                                if (student) {
+                                    const skill = skills[student.level_skill];
+                                    return (
+                                        <div>
+                                            <strong>{student.fio}</strong>
+                                            <div style={{ fontSize: "0.9rem", color: "var(--text-secondary)" }}>
+                                                {student.post}
+                                            </div>
+                                            {skill && (
+                                                <div style={{ fontSize: "0.85rem", color: "var(--primary-color)" }}>
+                                                    Уровень: {skill.level}
+                                                </div>
+                                            )}
+                                        </div>
+                                    );
+                                }
+                                return <p>Загрузка...</p>;
+                            }} 
+                        />
+                        <Column 
+                            title="Специальность" 
+                            key="speciality"
+                            render={(record: Application) => {
+                                const student = students[record.id_student];
+                                return student ? student.speciality : '-';
+                            }}
+                        />
+                        <Column 
+                            title="Курс" 
+                            key="course"
+                            render={(record: Application) => {
+                                const student = students[record.id_student];
+                                return student ? student.course : '-';
+                            }}
+                        />
+                        <Column 
+                            title="Статус" 
+                            key="id_status" 
+                            render={(record: Application) => {
+                                const status = statuses.find(s => s.id === record.id_status);
+                                let color = "default";
+                                if (status?.name === 'Одобрено') color = "success";
+                                else if (status?.name === 'Отклонено') color = "error";
+                                return (
+                                    <span style={{
+                                        padding: "4px 12px",
+                                        borderRadius: "20px",
+                                        fontSize: "0.85rem",
+                                        fontWeight: "600",
+                                        backgroundColor: color === 'success' ? "rgba(82, 196, 26, 0.1)" : 
+                                                       color === 'error' ? "rgba(245, 34, 45, 0.1)" :
+                                                       "rgba(250, 173, 20, 0.1)",
+                                        color: color === 'success' ? "var(--success-color)" :
+                                               color === 'error' ? "var(--error-color)" :
+                                               "var(--warning-color)"
+                                    }}>
+                                        {status ? status.name : 'Неизвестный'}
+                                    </span>
+                                );
+                            }}
+                        />
+                        <Column
+                            title="Действие"
+                            key="action"
+                            render={(_: any, record: Application) => (
+                                <Form
+                                    form={form}
+                                    layout="inline"
+                                    onFinish={async (data) => {
+                                        data.id = record.id;
+                                        updateResource(data);
+                                    }}
                                 >
-                                    <Radio.Group block options={statuses.map(status => ({ label: status.name, value: status.id.toString() }))} defaultValue={record.id_status} />
-                                </Form.Item>
-                                <Form.Item>
-                                    <Button type="primary" htmlType="submit">
-                                        Изменить статус
-                                    </Button>
-                                </Form.Item>
-                            </Form>
-                        </Space>
-                    )}
-                />
-            </Table>
+                                    <Form.Item
+                                        name="id_status"
+                                        label="Статус"
+                                        rules={[{ required: true, message: "Выберите статус" }]}
+                                    >
+                                        <Radio.Group 
+                                            options={statuses.map(status => ({ 
+                                                label: status.name, 
+                                                value: status.id.toString() 
+                                            }))} 
+                                            defaultValue={record.id_status.toString()}
+                                            optionType="button"
+                                        />
+                                    </Form.Item>
+                                    <Form.Item>
+                                        <Button type="primary" htmlType="submit" size="small">
+                                            Обновить
+                                        </Button>
+                                    </Form.Item>
+                                </Form>
+                            )}
+                        />
+                    </Table>
+                )}
+            </div>
         </div>
     );
 });

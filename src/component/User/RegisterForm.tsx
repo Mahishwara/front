@@ -1,11 +1,11 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { Button, Form, Input, Typography } from "antd";
+import { Button, Form, Input } from "antd";
 import axios, { type AxiosError } from "axios";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { ProblemDetails, RegisterData } from "../../types";
-import { HeaderExtension } from "../Base/HeaderExtensions";
 import { Header } from "../Base/Header";
+import styles from "./Auth.module.css";
 
 
 export const RegisterForm: React.FC = () => {
@@ -50,46 +50,63 @@ export const RegisterForm: React.FC = () => {
 	return (
 		<div>
 			<Header />
-			<HeaderExtension>
-				<Typography.Text strong>
-					Окно входа в аккаунт
-				</Typography.Text>
-			</HeaderExtension>
-			<Form
-				form={form}
-				style={{ padding: 10 }}
-				onFinish={async (data) => {
-					registerFC(data);
-                    navigate("/login");
-				}}
-			>
-				<Form.Item
-					name="email"
-					label="Введите эллектронную почту"
-					rules={[{ required: true, message: "Обязательное поле" }]}
-				>
-					<Input />
-				</Form.Item>
-				<Form.Item
-					name="password"
-					label="Введите пароль"
-					rules={[{ required: true, message: "Обязательное поле" }]}
-				>
-					<Input />
-				</Form.Item>
-				<Form.Item
-					name="phone_number"
-					label="Введите мобильный телефон"
-					rules={[{ required: true, message: "Обязательное поле" }]}
-				>
-					<Input />
-				</Form.Item>
-				<Form.Item>
-					<Button type="primary" htmlType="submit">
-						Зарегистрироваться
-					</Button>
-				</Form.Item>
-			</Form>
+			<div className={styles.authContainer}>
+				<div className={styles.authCard}>
+					<h1 className={styles.authTitle}>Регистрация</h1>
+					<p className={styles.authSubtitle}>
+						Создайте новый аккаунт
+					</p>
+					<Form
+						form={form}
+						layout="vertical"
+						onFinish={async (data) => {
+							registerFC(data);
+							navigate("/login");
+						}}
+					>
+						<Form.Item
+							name="email"
+							label="Электронная почта"
+							rules={[{ required: true, message: "Обязательное поле" }]}
+						>
+							<Input
+								type="email"
+								className={styles.formInput}
+								placeholder="example@email.com"
+							/>
+						</Form.Item>
+						<Form.Item
+							name="password"
+							label="Пароль"
+							rules={[{ required: true, message: "Обязательное поле" }]}
+						>
+							<Input.Password
+								className={styles.formInput}
+								placeholder="Введите пароль"
+							/>
+						</Form.Item>
+						<Form.Item
+							name="phone_number"
+							label="Мобильный телефон"
+							rules={[{ required: true, message: "Обязательное поле" }]}
+						>
+							<Input
+								type="tel"
+								className={styles.formInput}
+								placeholder="+7 (XXX) XXX-XX-XX"
+							/>
+						</Form.Item>
+						<Form.Item>
+							<Button type="primary" htmlType="submit" className={styles.submitButton} block>
+								Зарегистрироваться
+							</Button>
+						</Form.Item>
+						<div className={styles.toggle}>
+							Уже есть аккаунт? <a href="/login">Войдите здесь</a>
+						</div>
+					</Form>
+				</div>
+			</div>
 		</div>
 	);
 };

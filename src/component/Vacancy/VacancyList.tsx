@@ -1,11 +1,11 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { Button, message, Space, Table } from "antd";
 import axios from "axios";
-import { User, Vacancies, LevelSkill } from "../../types"; // Ensure LevelSkill type is imported correctly
+import { User, Vacancies, LevelSkill } from "../../types";
 import { Header } from "../Base/Header";
 import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
-
+import styles from "./Vacancy.module.css";
 
 
 const { Column } = Table;
@@ -53,7 +53,7 @@ export const VacancyList: React.FC = () => {
                 });
                 const skillsMap: { [key: number]: LevelSkill | null } = {};
                 response.data.forEach((skill: LevelSkill) => {
-                    skillsMap[skill.id] = skill; // Assuming skill has an id and level properties
+                    skillsMap[skill.id] = skill;
                 });
                 setSkills(skillsMap);
             } catch (err) {
@@ -93,11 +93,64 @@ export const VacancyList: React.FC = () => {
     return (
         <div>
             <Header />
-            <Table<Vacancies> dataSource={resources}>
-                <Column title="Вакансия" dataIndex="post" key="post" />
-                <Column title="Описание" dataIndex="description" key="description" />
-                <Column title="Начало стажировки" dataIndex="date_begin" key="date" />
-                <Column title="Конец стажировки" dataIndex="date_end" key="date" />
+            <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "24px" }}>
+                <h1 style={{ marginBottom: "24px", fontSize: "2rem", fontWeight: "600" }}>
+                    Доступные вакансии
+                </h1>
+                <Table<Vacancies> dataSource={resources} rowKey="id">
+                    <Column 
+                        title="Должность" 
+                        dataIndex="post" 
+                        key="post"
+                        render={(text) => <strong>{text}</strong>}
+                    />
+                    <Column 
+                        title="Описание" 
+                        dataIndex="description" 
+                        key="description"
+                        ellipsis
+                    />
+                    <Column 
+                        title="Начало" 
+                        dataIndex="date_begin" 
+                        key="date_begin"
+                    />
+                    <Column 
+                        title="Окончание" 
+                        dataIndex="date_end" 
+                        key="date_end"
+                    />
+                    <Column 
+                        title="Оклад" 
+                        dataIndex="salary" 
+                        key="salary"
+                        render={(text) => <span style={{ fontWeight: "600", color: "var(--success-color)" }}>{text}000 ₽</span>}
+                    />
+                    <Column 
+                        title="Уровень навыков"
+                        key="level"
+                        render={(record: Vacancies) => {
+                            const skill = skills[record.level_skill];
+                            return skill ? skill.level : 'Не указан';
+                        }}
+                    />
+                    <Column
+                        title="Действия"
+                        key="action"
+                        render={(record: Vacancies) => (
+                            <Button 
+                                type="primary"
+                                onClick={() => postApplication(record)}
+                            >
+                                Откликнуться
+                            </Button>
+                        )}
+                    />
+                </Table>
+            </div>
+        </div>
+    );
+};
                 <Column title="Оплата" dataIndex="salary" key="salary" />
                 <Column
                     title="Уровень навыков"

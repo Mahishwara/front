@@ -4,6 +4,8 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import { User, LevelSkill } from '../../types';
+import { Header } from '../Base/Header';
+import styles from '../User/DataForms.module.css';
 
 export const EmployerData = () => {
     const [userData, setUserData] = useState<User>();
@@ -68,57 +70,93 @@ export const EmployerData = () => {
     };
 
     return (
-        <div style={{ maxWidth: 600, margin: '0 auto' }}>
-            <h1>Введите данные работодателя</h1>
-            <Form
-                name="employer_data"
-                onFinish={onFinish}
-                layout="vertical"
-            >
-                <Form.Item
-                    label="Имя"
-                    name="name"
-                    rules={[{ required: true, message: 'Пожалуйста, введите ваше имя!' }]}
+        <div>
+            <Header />
+            <div className={styles.dataContainer}>
+                <div className={styles.dataHeader}>
+                    <h1 className={styles.dataTitle}>Профиль работодателя</h1>
+                    <p className={styles.dataSubtitle}>Заполните информацию о компании</p>
+                </div>
+                <Form
+                    name="employer_data"
+                    onFinish={onFinish}
+                    layout="vertical"
                 >
-                    <Input />
-                </Form.Item>
+                    <div className={styles.formSection}>
+                        <h2 className={styles.sectionTitle}>Личные данные</h2>
+                        <div className={styles.formRow}>
+                            <div className={styles.formGroup}>
+                                <label className={styles.formLabel}>ФИО</label>
+                                <Form.Item
+                                    name="name"
+                                    rules={[{ required: true, message: 'Пожалуйста, введите ваше имя!' }]}
+                                >
+                                    <Input className={styles.formInput} placeholder="Иван Иванов" />
+                                </Form.Item>
+                            </div>
+                        </div>
+                    </div>
 
-                <Form.Item
-                    label="Организация"
-                    name="organization"
-                    rules={[{ required: true, message: 'Пожалуйста, введите название организации!' }]}
-                >
-                    <Input />
-                </Form.Item>
+                    <div className={styles.formSection}>
+                        <h2 className={styles.sectionTitle}>Информация о компании</h2>
+                        <div className={styles.formRow}>
+                            <div className={styles.formGroup}>
+                                <label className={styles.formLabel}>Название организации</label>
+                                <Form.Item
+                                    name="organization"
+                                    rules={[{ required: true, message: 'Пожалуйста, введите название организации!' }]}
+                                >
+                                    <Input className={styles.formInput} placeholder="ООО Компания" />
+                                </Form.Item>
+                            </div>
+                        </div>
 
-                <Form.Item
-                    label="Описание"
-                    name="description"
-                    rules={[{ required: true, message: 'Пожалуйста, введите описание!' }]}
-                >
-                    <Input.TextArea rows={4} />
-                </Form.Item>
+                        <div className={styles.formRow + ' ' + styles.full}>
+                            <div className={styles.formGroup}>
+                                <label className={styles.formLabel}>Описание компании</label>
+                                <Form.Item
+                                    name="description"
+                                    rules={[{ required: true, message: 'Пожалуйста, введите описание!' }]}
+                                >
+                                    <Input.TextArea 
+                                        className={styles.formTextarea}
+                                        placeholder="Опишите вашу компанию..."
+                                        rows={4} 
+                                    />
+                                </Form.Item>
+                            </div>
+                        </div>
+                    </div>
 
-                <Form.Item
-                    label="Уровень навыков"
-                    name="level_skill"
-                    rules={[{ required: true, message: 'Пожалуйста, выберите уровень навыков!' }]}
-                >
-                    <Select placeholder="Выберите уровень навыков">
-                        {skills.map(skill => (
-                            <Select.Option key={skill.id} value={skill.id}>
-                                {skill.level} {/* Assuming 'level' is the property to display */}
-                            </Select.Option>
-                        ))}
-                    </Select>
-                </Form.Item>
+                    <div className={styles.formSection}>
+                        <h2 className={styles.sectionTitle}>Требования к кандидатам</h2>
+                        <div className={styles.formRow}>
+                            <div className={styles.formGroup}>
+                                <label className={styles.formLabel}>Требуемый уровень навыков</label>
+                                <Form.Item
+                                    name="level_skill"
+                                    rules={[{ required: true, message: 'Пожалуйста, выберите уровень навыков!' }]}
+                                >
+                                    <Select className={styles.formSelect} placeholder="Выберите уровень">
+                                        {skills.map(skill => (
+                                            <Select.Option key={skill.id} value={skill.id}>
+                                                {skill.level}
+                                            </Select.Option>
+                                        ))}
+                                    </Select>
+                                </Form.Item>
+                            </div>
+                        </div>
+                    </div>
 
-                <Form.Item>
-                    <Button type="primary" htmlType="submit">
-                        Отправить
-                    </Button>
-                </Form.Item>
-            </Form>
+                    <div className={styles.formActions}>
+                        <Button onClick={() => navigate('/profile')}>Отмена</Button>
+                        <Button type="primary" htmlType="submit" className={styles.buttonPrimary}>
+                            Сохранить
+                        </Button>
+                    </div>
+                </Form>
+            </div>
         </div>
     );
 };

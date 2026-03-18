@@ -1,9 +1,11 @@
 import axios from "axios";
 import Cookies from 'js-cookie';
 import { Header } from "../Base/Header";
+import { Button } from "antd";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Employer, Student, User, LevelSkill } from "../../types"; 
+import { Employer, Student, User, LevelSkill } from "../../types";
+import styles from "./Auth.module.css";
 
 export const Profile: React.FC = () => {
     const [userData, setUserData] = useState<User>();
@@ -109,38 +111,117 @@ export const Profile: React.FC = () => {
     };
 
     return (
-        <div className="profile">
+        <div>
             <Header />
-            {studentData && (
-                <div>
-                    <h2>Данные студента</h2>
-                    <p><strong>ФИО:</strong> {studentData.fio}</p>
-                    <p><strong>Должность:</strong> {studentData.post}</p>
-                    <p><strong>Уровень навыков:</strong> {getSkillLevelName(studentData.level_skill)}</p>
-                    <p><strong>Специальность:</strong> {studentData.speciality}</p>
-                    <p><strong>Курс:</strong> {studentData.course}</p>
-                    <p><strong>Email:</strong> {userData.email}</p>
-                    <strong>Телефон:</strong> {userData.phone_number}
-                </div>
-            )}
+            <div style={{ maxWidth: "800px", margin: "0 auto", padding: "24px" }}>
+                {studentData && (
+                    <div className={styles.profileCard}>
+                        <div className={styles.profileHeader}>
+                            <div className={styles.profileAvatar}>СТ</div>
+                            <div className={styles.profileInfo}>
+                                <h2>{studentData.fio}</h2>
+                                <p>{studentData.post}</p>
+                            </div>
+                        </div>
 
-            {employerData && (
-                <div>
-                    <h2>Данные работодателя</h2>
-                    <p><strong>ФИО:</strong> {employerData.name}</p>
-                    <p><strong>Название организации:</strong> {employerData.organization}</p>
-                    <p><strong>Описание:</strong> {employerData.description}</p>
-                    <p><strong>Email:</strong> {userData.email}</p>
-                    <strong>Телефон:</strong> {userData.phone_number}
-                </div>
-            )}
-            {!employerData && !studentData && (
-                <div className="button-container">
-                    <p>Выберите роль</p>
-                    <button onClick={handleStudentRedirect}>Выбрать роль студента</button>
-                    <button onClick={handleEmployerRedirect}>Выбрать роль работодателя</button>
-                </div>
-            )}
+                        <div className={styles.profileField}>
+                            <div className={styles.profileFieldLabel}>ФИО</div>
+                            <div className={styles.profileFieldValue}>{studentData.fio}</div>
+                        </div>
+
+                        <div className={styles.profileField}>
+                            <div className={styles.profileFieldLabel}>Должность</div>
+                            <div className={styles.profileFieldValue}>{studentData.post}</div>
+                        </div>
+
+                        <div className={styles.profileField}>
+                            <div className={styles.profileFieldLabel}>Уровень навыков</div>
+                            <div className={styles.profileFieldValue}>{getSkillLevelName(studentData.level_skill)}</div>
+                        </div>
+
+                        <div className={styles.profileField}>
+                            <div className={styles.profileFieldLabel}>Специальность</div>
+                            <div className={styles.profileFieldValue}>{studentData.speciality}</div>
+                        </div>
+
+                        <div className={styles.profileField}>
+                            <div className={styles.profileFieldLabel}>Курс</div>
+                            <div className={styles.profileFieldValue}>{studentData.course}</div>
+                        </div>
+
+                        <div className={styles.profileField}>
+                            <div className={styles.profileFieldLabel}>Email</div>
+                            <div className={styles.profileFieldValue}>{userData.email}</div>
+                        </div>
+
+                        <div className={styles.profileField}>
+                            <div className={styles.profileFieldLabel}>Телефон</div>
+                            <div className={styles.profileFieldValue}>{userData.phone_number}</div>
+                        </div>
+                    </div>
+                )}
+
+                {employerData && (
+                    <div className={styles.profileCard}>
+                        <div className={styles.profileHeader}>
+                            <div className={styles.profileAvatar}>РБ</div>
+                            <div className={styles.profileInfo}>
+                                <h2>{employerData.name}</h2>
+                                <p>{employerData.organization}</p>
+                            </div>
+                        </div>
+
+                        <div className={styles.profileField}>
+                            <div className={styles.profileFieldLabel}>ФИО</div>
+                            <div className={styles.profileFieldValue}>{employerData.name}</div>
+                        </div>
+
+                        <div className={styles.profileField}>
+                            <div className={styles.profileFieldLabel}>Организация</div>
+                            <div className={styles.profileFieldValue}>{employerData.organization}</div>
+                        </div>
+
+                        <div className={styles.profileField}>
+                            <div className={styles.profileFieldLabel}>Описание</div>
+                            <div className={styles.profileFieldValue}>{employerData.description}</div>
+                        </div>
+
+                        <div className={styles.profileField}>
+                            <div className={styles.profileFieldLabel}>Email</div>
+                            <div className={styles.profileFieldValue}>{userData.email}</div>
+                        </div>
+
+                        <div className={styles.profileField}>
+                            <div className={styles.profileFieldLabel}>Телефон</div>
+                            <div className={styles.profileFieldValue}>{userData.phone_number}</div>
+                        </div>
+                    </div>
+                )}
+
+                {!employerData && !studentData && (
+                    <div className={styles.authCard} style={{ textAlign: "center" }}>
+                        <h2 style={{ marginBottom: "24px" }}>Выберите роль</h2>
+                        <p style={{ marginBottom: "32px", color: "var(--text-secondary)" }}>
+                            Для продолжения работы выберите одну из ролей
+                        </p>
+                        <div style={{ display: "flex", gap: "16px", flexDirection: "column" }}>
+                            <Button 
+                                type="primary" 
+                                size="large"
+                                onClick={handleStudentRedirect}
+                            >
+                                Выбрать роль студента
+                            </Button>
+                            <Button 
+                                size="large"
+                                onClick={handleEmployerRedirect}
+                            >
+                                Выбрать роль работодателя
+                            </Button>
+                        </div>
+                    </div>
+                )}
+            </div>
         </div>
     );
 };

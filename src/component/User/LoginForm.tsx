@@ -1,11 +1,12 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { Button, Form, Input, Typography } from "antd";
+import { Button, Form, Input } from "antd";
 import axios, { type AxiosError } from "axios";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import Cookies from 'js-cookie'
 import { Header } from "../Base/Header";
 import { LoginData, ProblemDetails } from "../../types";
+import styles from "./Auth.module.css";
 
 export const LoginForm: React.FC = () => {
 
@@ -55,44 +56,52 @@ export const LoginForm: React.FC = () => {
 	return (
 		<>
             <Header />
-			
-				<Typography.Text strong>
-					Окно входа в аккаунт
-				</Typography.Text>
-
-			<Form
-				form={form}
-				style={{ padding: 10 }}
-				onFinish={async (data) => {
-					loginFC(data);
-				}}
-			>
-				<Form.Item
-					name="email"
-					label="Введите эллектронную почту"
-					rules={[{ required: true, message: "Обязательное поле" }]}
-				>
-					<Input />
-				</Form.Item>
-				<Form.Item
-					name="password"
-					label="Введите пароль"
-					rules={[{ required: true, message: "Обязательное поле" }]}
-				>
-					<Input />
-				</Form.Item>
-				
-				<Form.Item>
-					<Button type="primary" htmlType="submit">
-						Войти
-					</Button>
-				</Form.Item>
-                <Form.Item>
-					<Button type="link" href="/register">
-						Зарегистрироваться можно здесь
-					</Button>
-				</Form.Item>
-			</Form>
+			<div className={styles.authContainer}>
+				<div className={styles.authCard}>
+					<h1 className={styles.authTitle}>Вход в аккаунт</h1>
+					<p className={styles.authSubtitle}>
+						Введите ваши учетные данные для входа
+					</p>
+					<Form
+						form={form}
+						layout="vertical"
+						onFinish={async (data) => {
+							loginFC(data);
+						}}
+					>
+						<Form.Item
+							name="email"
+							label="Электронная почта"
+							rules={[{ required: true, message: "Обязательное поле" }]}
+						>
+							<Input
+								type="email"
+								className={styles.formInput}
+								placeholder="example@email.com"
+							/>
+						</Form.Item>
+						<Form.Item
+							name="password"
+							label="Пароль"
+							rules={[{ required: true, message: "Обязательное поле" }]}
+						>
+							<Input.Password
+								className={styles.formInput}
+								placeholder="Введите пароль"
+							/>
+						</Form.Item>
+						
+						<Form.Item>
+							<Button type="primary" htmlType="submit" className={styles.submitButton} block>
+								Войти
+							</Button>
+						</Form.Item>
+						<div className={styles.toggle}>
+							Нет аккаунта? <a href="/register">Зарегистрируйтесь здесь</a>
+						</div>
+					</Form>
+				</div>
+			</div>
 		</>
 	);
 };
