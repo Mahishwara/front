@@ -1,0 +1,340 @@
+/* Vacancy Card Styles */
+.vacancyCard {
+  background-color: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-lg);
+  margin-bottom: var(--spacing-lg);
+  box-shadow: var(--shadow);
+  transition: all 0.3s ease;
+}
+
+.vacancyCard:hover {
+  box-shadow: 0 6px 12px -4px rgba(0, 0, 0, 0.15);
+  transform: translateY(-2px);
+  border-color: var(--primary-color);
+}
+
+.vacancyHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: var(--spacing-md);
+  gap: var(--spacing-md);
+}
+
+.vacancyTitle {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  flex: 1;
+}
+
+.vacancyTitle a {
+  color: var(--primary-color);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.vacancyTitle a:hover {
+  color: var(--primary-hover);
+  text-decoration: underline;
+}
+
+.vacancyStatus {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  white-space: nowrap;
+  text-transform: uppercase;
+}
+
+.statusActive {
+  background-color: rgba(82, 196, 26, 0.1);
+  color: var(--success-color);
+}
+
+.statusInactive {
+  background-color: rgba(217, 217, 217, 0.3);
+  color: var(--text-secondary);
+}
+
+.statusClosed {
+  background-color: rgba(245, 34, 45, 0.1);
+  color: var(--error-color);
+}
+
+.vacancyMeta {
+  display: flex;
+  gap: var(--spacing-lg);
+  margin-bottom: var(--spacing-lg);
+  flex-wrap: wrap;
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+}
+
+.vacancyMetaItem {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.vacancyMetaIcon {
+  font-size: 1rem;
+  color: var(--primary-color);
+}
+
+.vacancyDescription {
+  margin: 0 0 var(--spacing-lg) 0;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.vacancyRequirements {
+  background-color: var(--bg-secondary);
+  border-left: 3px solid var(--primary-color);
+  padding: var(--spacing-md);
+  margin-bottom: var(--spacing-lg);
+  border-radius: var(--radius-md);
+}
+
+.vacancyRequirementsTitle {
+  font-weight: 600;
+  margin-bottom: var(--spacing-md);
+  font-size: 0.95rem;
+}
+
+.vacancyRequirementsList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.vacancyRequirementsList li {
+  padding: var(--spacing-sm) 0;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-sm);
+}
+
+.vacancyRequirementsList li::before {
+  content: "✓";
+  color: var(--success-color);
+  font-weight: bold;
+  flex-shrink: 0;
+}
+
+.vacancyFooter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: var(--spacing-lg);
+  border-top: 1px solid var(--border-color);
+  gap: var(--spacing-md);
+}
+
+.vacancySalary {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--success-color);
+}
+
+.vacancyActions {
+  display: flex;
+  gap: var(--spacing-sm);
+}
+
+.vacancyAction {
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  font-size: 0.9rem;
+}
+
+.primaryAction {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+.primaryAction:hover {
+  background-color: var(--primary-hover);
+}
+
+.secondaryAction {
+  background-color: transparent;
+  border: 1px solid var(--primary-color);
+  color: var(--primary-color);
+}
+
+.secondaryAction:hover {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+/* Vacancy Form */
+.vacancyForm {
+  background-color: var(--bg-primary);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-xl);
+  box-shadow: var(--shadow);
+}
+
+.formSection {
+  margin-bottom: var(--spacing-xl);
+}
+
+.formSectionTitle {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: var(--spacing-lg);
+  padding-bottom: var(--spacing-md);
+  border-bottom: 1px solid var(--border-color);
+  color: var(--text-primary);
+}
+
+.formRow {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--spacing-lg);
+  margin-bottom: var(--spacing-lg);
+}
+
+.formRow.full {
+  grid-template-columns: 1fr;
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+}
+
+.formLabel {
+  font-weight: 600;
+  margin-bottom: var(--spacing-sm);
+  color: var(--text-primary);
+  font-size: 0.9rem;
+}
+
+.formLabel.required::after {
+  content: " *";
+  color: var(--error-color);
+}
+
+.formInput,
+.formSelect,
+.formTextarea {
+  padding: var(--spacing-md);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  font-family: inherit;
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+}
+
+.formInput:focus,
+.formSelect:focus,
+.formTextarea:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(24, 144, 255, 0.1);
+}
+
+.formTextarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.formActions {
+  display: flex;
+  gap: var(--spacing-lg);
+  justify-content: flex-end;
+  padding-top: var(--spacing-xl);
+  border-top: 1px solid var(--border-color);
+}
+
+@media (max-width: 768px) {
+  .formRow {
+    grid-template-columns: 1fr;
+  }
+
+  .vacancyFooter {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .vacancyActions {
+    width: 100%;
+  }
+
+  .vacancyAction {
+    flex: 1;
+  }
+
+  .formActions {
+    flex-direction: column;
+  }
+
+  .formActions button {
+    width: 100%;
+  }
+}
+
+/* Vacancy List */
+.vacancyList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.vacancyListEmpty {
+  text-align: center;
+  padding: var(--spacing-xl);
+  color: var(--text-secondary);
+}
+
+.vacancyListEmpty h3 {
+  color: var(--text-primary);
+  margin-bottom: var(--spacing-md);
+}
+
+.vacancyFilter {
+  display: flex;
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-xl);
+  flex-wrap: wrap;
+}
+
+.filterInput,
+.filterSelect {
+  padding: var(--spacing-md);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  font-family: inherit;
+  min-width: 200px;
+}
+
+.filterInput:focus,
+.filterSelect:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(24, 144, 255, 0.1);
+}
+
+@media (max-width: 768px) {
+  .vacancyFilter {
+    flex-direction: column;
+  }
+
+  .filterInput,
+  .filterSelect {
+    min-width: 100%;
+  }
+}
