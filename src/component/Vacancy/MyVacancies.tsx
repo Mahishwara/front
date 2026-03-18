@@ -82,115 +82,103 @@ export const MyVacancies: React.FC = () => {
     }
 
     return (
-        <div>
-            <Header />
-            <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "24px" }}>
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "24px" }}>
-                    <h1 style={{ margin: "0", fontSize: "2rem", fontWeight: "600" }}>Мои вакансии</h1>
-                    <Button 
+    <><div>
+        <Header />
+        <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "24px" }}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "24px" }}>
+                <h1 style={{ margin: "0", fontSize: "2rem", fontWeight: "600" }}>Мои вакансии</h1>
+                <Button
+                    type="primary"
+                    size="large"
+                    onClick={() => navigate("/new")}
+                >
+                    + Добавить вакансию
+                </Button>
+            </div>
+
+            (resources === undefined || resources.length === 0) ? (
+                <div className={styles.vacancyCard} style={{ textAlign: "center", padding: "48px" }}>
+                    <p style={{ fontSize: "1.1rem", color: "var(--text-secondary)", marginBottom: "16px" }}>
+                        У вас ещё нет вакансий
+                    </p>
+                    <Button
                         type="primary"
-                        size="large"
                         onClick={() => navigate("/new")}
                     >
-                        + Добавить вакансию
+                        Создать первую вакансию
                     </Button>
                 </div>
-
-                {(resources === undefined || resources.length === 0) ? (
-                    <div className={styles.vacancyCard} style={{ textAlign: "center", padding: "48px" }}>
-                        <p style={{ fontSize: "1.1rem", color: "var(--text-secondary)", marginBottom: "16px" }}>
-                            У вас ещё нет вакансий
-                        </p>
-                        <Button 
-                            type="primary"
-                            onClick={() => navigate("/new")}
-                        >
-                            Создать первую вакансию
-                        </Button>
-                    </div>
-                ) : (
-                    <Table<Vacancies> dataSource={resources || []} rowKey="id">
-                        <Column 
-                            title="Должность" 
-                            dataIndex="post" 
-                            key="post"
-                            render={(text) => <strong>{text}</strong>}
-                        />
-                        <Column 
-                            title="Описание" 
-                            dataIndex="description" 
-                            key="description"
-                            ellipsis
-                        />
-                        <Column 
-                            title="Начало" 
-                            dataIndex="date_begin" 
-                            key="date_begin"
-                        />
-                        <Column 
-                            title="Окончание" 
-                            dataIndex="date_end" 
-                            key="date_end"
-                        />
-                        <Column 
-                            title="Оклад" 
-                            dataIndex="salary" 
-                            key="salary"
-                            render={(text) => <span style={{ fontWeight: "600", color: "var(--success-color)" }}>{text}000 ₽</span>}
-                        />
-                        <Column
-                            title="Уровень навыков"
-                            key="level"
-                            render={(record: Vacancies) => {
-                                const skill = skills[record.level_skill];
-                                return skill ? skill.level : 'Не указан';
-                            }}
-                        />
-                        <Column
-                            title="Действия"
-                            key="action"
-                            render={(record: Vacancies) => (
-                                <Space>
-                                    <Button 
-                                        type="primary"
-                                        ghost
-                                        onClick={() => navigate(`/edit/${record.id}`)}
-                                    >
-                                        Редактировать
-                                    </Button>
-                                    <Button 
-                                        danger
-                                        onClick={() => delVacancy(record)}
-                                    >
-                                        Удалить
-                                    </Button>
-                                </Space>
-                            )}
-                        />
-                    </Table>
-                )}
-            </div>
-        </div>
-    );
-};
-                <Column
-                    title="Action"
-                    key="action"
-                    render={(_, record: Vacancies) => (
-                        <Space size="middle">
-                            <Button onClick={() => navigate(`/${record.id}`)}>
-                                Редактировать
-                            </Button>
-                            <Button onClick={() => delVacancy(record)}>
-                                Удалить вакансию
-                            </Button>
-                            <Button onClick={() => navigate(`/vac-application/${record.id}`)}>
-                                Получить заявки
-                            </Button>
-                        </Space>
-                    )}
-                />
+            ) : (
+                <Table<Vacancies> dataSource={resources || []} rowKey="id">
+                    <Column
+                        title="Должность"
+                        dataIndex="post"
+                        key="post"
+                        render={(text) => <strong>{text}</strong>} />
+                    <Column
+                        title="Описание"
+                        dataIndex="description"
+                        key="description"
+                        ellipsis />
+                    <Column
+                        title="Начало"
+                        dataIndex="date_begin"
+                        key="date_begin" />
+                    <Column
+                        title="Окончание"
+                        dataIndex="date_end"
+                        key="date_end" />
+                    <Column
+                        title="Оклад"
+                        dataIndex="salary"
+                        key="salary"
+                        render={(text) => <span style={{ fontWeight: "600", color: "var(--success-color)" }}>{text}000 ₽</span>} />
+                    <Column
+                        title="Уровень навыков"
+                        key="level"
+                        render={(record: Vacancies) => {
+                            const skill = skills[record.level_skill];
+                            return skill ? skill.level : 'Не указан';
+                        } } />
+                    <Column
+                        title="Действия"
+                        key="action"
+                        render={(record: Vacancies) => (
+                            <Space>
+                                <Button
+                                    type="primary"
+                                    ghost
+                                    onClick={() => navigate(`/edit/${record.id}`)}
+                                >
+                                    Редактировать
+                                </Button>
+                                <Button
+                                    danger
+                                    onClick={() => delVacancy(record)}
+                                >
+                                    Удалить
+                                </Button>
+                            </Space>
+                        )} />
+                    <Column
+                        title="Action"
+                        key="action"
+            render={(_, record: Vacancies) => (
+                <Space size="middle">
+                    <Button onClick={() => navigate(`/${record.id}`)}>
+                        Редактировать
+                    </Button>
+                    <Button onClick={() => delVacancy(record)}>
+                        Удалить вакансию
+                    </Button>
+                    <Button onClick={() => navigate(`/vac-application/${record.id}`)}>
+                        Получить заявки
+                    </Button>
+                </Space>
+            )}/>
             </Table>
         </div>
+        </div>
+    </>
     );
 };
