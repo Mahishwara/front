@@ -50,6 +50,7 @@ export type Application = {
 	id: number;
 	id_student: number;
 	id_vacancy: number;
+	date: string;
 	id_status: number;
 	vacancy?: Vacancies;
 };
@@ -57,7 +58,8 @@ export type Application = {
 export type Token = {
 	token: string;
 };
-	export type LoginData = {
+
+export type LoginData = {
 	email: string;
 	password: string;
 }
@@ -71,21 +73,7 @@ export type RegisterData = {
 export type LevelSkill = {
 	id: number;
 	level: string;
-}
-
-export type Application = {
-	id: number;
-	id_student: number;
-	id_vacancy: number;
-	date: string;
-	id_status: number;
-	vacancy: any
 };
-
-export type ApplicationAdd = {
-	id_student: number;
-	id_vacancy: number;
-}
 
 export type CheckMethodType = "Http" | "Ping";
 
@@ -102,6 +90,8 @@ export type CheckResult = {
 	error?: string;
 };
 
+export type UserRole = 'student' | 'employer' | 'admin' | 'guest';
+
 export type User = {
 	id: string;
 	name: string;
@@ -109,6 +99,13 @@ export type User = {
 	phone_number: string;
 	student_id: number | null;
 	employer_id: number | null;
+	role: number;
+};
+
+export type NavItem = {
+	label: string;
+	path: string;
+	icon?: string;
 };
 
 export type ProblemDetails = {

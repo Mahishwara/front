@@ -3,48 +3,20 @@ import { Button} from "antd";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 import styles from "./Header.module.css";
+import { NavMenu } from "../NavMenu";
+import { useUser, useCurrentUser } from "../../hooks/useUser";
 
 
 export const Header: React.FC = () => {
     const navigate = useNavigate();
+    useUser(); // Инициализируем загрузку пользователя
+    const user = useCurrentUser();
 
     return (
         <HeaderExtension>
             <div className={styles.headerContent}>
                 <div className={styles.navItems}>
-                    <Button
-                        className={styles.headerButton}
-                        onClick={() => {
-                            navigate("/");
-                        }}
-                    >
-                        Главная
-                    </Button>
-                    
-                    <Button
-                        className={styles.headerButton}
-                        onClick={() => {
-                            navigate("/my-vacancies");
-                        }}
-                    >
-                        Управление вакансиями
-                    </Button>
-                    <Button
-                        className={styles.headerButton}
-                        onClick={() => {
-                            navigate("/applications");
-                        }}
-                    >
-                        Мои заявки
-                    </Button>
-                    <Button
-                        className={styles.headerButton}
-                        onClick={() => {
-                            navigate('/profile')
-                        }}
-                    >
-                        Профиль
-                    </Button>
+                    <NavMenu />
                 </div>
                 <Button
                     className={`${styles.headerButton} ${styles.logoutButton}`}
@@ -53,9 +25,9 @@ export const Header: React.FC = () => {
                         navigate("/profile");
                     }}
                 >
-                    Выйти из аккаунта
+                    {user ? 'Выйти из аккаунта' : 'Войти'}
                 </Button>
             </div>
-			</HeaderExtension>
+		</HeaderExtension>
     );
 }
