@@ -2,7 +2,7 @@ import { atom, useAtomValue, useSetAtom} from "jotai";
 import type { PropsWithChildren} from "react";
 import { createPortal } from "react-dom";
 
-const headerExtensionsElementAtom = atom<HTMLDivElement | null>(null);
+const headerExtensionsElementAtom = atom<HTMLDivElement>();
 
 export const HeaderExtensions: React.FC = () => {    const setValue = useSetAtom(headerExtensionsElementAtom);    return <div ref={setValue} />;};
 
