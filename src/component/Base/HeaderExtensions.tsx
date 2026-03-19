@@ -1,5 +1,5 @@
-import { atom, useAtomValue, useSetAtom } from "jotai";
-import type { PropsWithChildren, ref } from "react";
+import { atom, useAtomValue, useSetAtom} from "jotai";
+import type { PropsWithChildren} from "react";
 import { createPortal } from "react-dom";
 
 const headerExtensionsElementAtom = atom<HTMLDivElement | null>(null);
