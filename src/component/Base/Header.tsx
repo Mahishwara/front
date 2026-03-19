@@ -14,20 +14,45 @@ export const Header: React.FC = () => {
 
     return (
         <HeaderExtension>
-            <div className={styles.headerContent}>
-                <div className={styles.navItems}>
-                    <NavMenu />
-                </div>
                 <Button
-                    className={`${styles.headerButton} ${styles.logoutButton}`}
-                    onClick={async () => {
-                        Cookies.remove('token');
-                        navigate("/profile");
-                    }}
-                >
-                    {user ? 'Выйти из аккаунта' : 'Войти'}
-                </Button>
-            </div>
-		</HeaderExtension>
+					onClick={() => {
+						navigate("/");
+					}}
+				>
+					Главная
+				</Button>
+				
+				<Button
+					onClick={() => {
+						navigate("/my-vacancies")
+						;
+					}}
+				>
+					Управление вакансиями
+				</Button>
+				<Button
+					onClick={() => {
+						navigate("/applications")
+						;
+					}}
+				>
+					Мои заявки
+				</Button>
+				<Button
+					onClick={() => {
+					navigate('/profile')
+					}}
+				>
+					Профиль
+				</Button>
+				<Button
+					onClick={async () => {
+						Cookies.remove('token');
+						navigate("/profile");
+					}}
+				>
+					Выйти из аккаунта
+				</Button>
+			</HeaderExtension>
     );
 }
