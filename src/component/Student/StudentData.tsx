@@ -57,7 +57,6 @@ export const StudentData = () => {
     }
 
     const onFinish = async (values: Student) => {
-        values.ability = '123';
         try {
             await axios.post(import.meta.env.VITE_BASE_URL + `api/students/add/?token=${token}`, values);
             message.success('Данные успешно отправлены!');

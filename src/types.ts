@@ -97,9 +97,8 @@ export type User = {
 	name: string;
 	email: string;
 	phone_number: string;
-	student_id: number | null;
-	employer_id: number | null;
 	role: number;
+	idbyrole: number;
 };
 
 export type NavItem = {

@@ -106,7 +106,7 @@ export const VacancyForm: React.FC<{
 					layout="vertical"
 					onFinish={async (data) => {
 						if (userData){
-						data.id_employer = userData.employer_id;
+						data.id_employer = userData.idbyrole;
 						}
 						saveResource(data);
 					}}

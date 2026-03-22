@@ -53,13 +53,13 @@ export const Profile: React.FC = () => {
     
     useEffect(() => {
         if (userData) {
-            if (userData.student_id) {
+            if (userData.role === 1) {
                 const fetchStudentData = async () => {
                     try {
                         const response = await axios({
                             method: 'GET',
                             headers: { 'Content-Type': 'application/json' },
-                            url: import.meta.env.VITE_BASE_URL + `api/students/${userData.student_id}`
+                            url: import.meta.env.VITE_BASE_URL + `api/students/${userData.idbyrole}`
                         });
                         setStudentData(response.data);
                     } catch (err) {
@@ -69,13 +69,13 @@ export const Profile: React.FC = () => {
                 };
                 fetchStudentData();
             }
-            if (userData.employer_id) {
+            if (userData.role === 2) {
                 const fetchEmployerData = async () => {
                     try {
                         const response = await axios({
                             method: 'GET',
                             headers: { 'Content-Type': 'application/json' },
-                            url: import.meta.env.VITE_BASE_URL + `api/employers/${userData.employer_id}`
+                            url: import.meta.env.VITE_BASE_URL + `api/employers/${userData.idbyrole}`
                         });
                         setEmployerData(response.data);
                     } catch (err) {

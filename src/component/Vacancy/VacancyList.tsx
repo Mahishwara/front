@@ -68,10 +68,10 @@ export const VacancyList: FC = () => {
     // Mutation for posting application
     const { mutate: postApplication } = useMutation({
         mutationFn: async (resource: Vacancies) => {
-            if (userData && userData.student_id != null) {
-                const applicationData = { "id_student": userData.student_id, "id_vacancy": resource.id };
+            if (userData && userData.role === 1) {
+                const applicationData = { "id_student": userData.idbyrole, "id_vacancy": resource.id };
                 try {
-                    const response = await axios.get(import.meta.env.VITE_BASE_URL + `api/applications/?id_vacancy=${resource.id}&id_student=${userData.student_id}`);
+                    const response = await axios.get(import.meta.env.VITE_BASE_URL + `api/applications/?id_vacancy=${resource.id}&id_student=${userData.idbyrole}`);
                     if (response.data.length > 0) {
                         message.info('Вы уже подали заявку на данную вакансию');
                     } else {

@@ -35,8 +35,8 @@ export const MyVacancies: React.FC = () => {
     const { data: resources } = useQuery<Vacancies[]>({
         queryKey: ["resources"],
         queryFn: async () => {
-            if (userData && userData.employer_id != null) {
-                const res = await axios.get<Vacancies[]>(import.meta.env.VITE_BASE_URL + `api/vacancies/?id_employer=${userData.employer_id}`);
+            if (userData && userData.role === 2) {
+                const res = await axios.get<Vacancies[]>(import.meta.env.VITE_BASE_URL + `api/vacancies/?id_employer=${userData.idbyrole}`);
                 return res.data;
             }
             return [];
