@@ -39,7 +39,7 @@ export const MyVacancies: React.FC = () => {
                 const res = await axios.get<Vacancies[]>(import.meta.env.VITE_BASE_URL + `api/vacancies/?id_employer=${userData.idbyrole}`);
                 return res.data;
             }
-            return [];
+            setError("У вас нет доступа к управлению вакансиями.");
         },
         refetchInterval: 5000,
     });
