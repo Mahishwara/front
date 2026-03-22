@@ -96,7 +96,7 @@ export const MyVacancies: React.FC = () => {
                 </Button>
             </div>
 
-            (resources === undefined || resources.length === 0) ? (
+            {(resources === undefined || resources.length === 0) ? (
                 <div className={styles.vacancyCard} style={{ textAlign: "center", padding: "48px" }}>
                     <p style={{ fontSize: "1.1rem", color: "var(--text-secondary)", marginBottom: "16px" }}>
                         У вас ещё нет вакансий
@@ -162,7 +162,7 @@ export const MyVacancies: React.FC = () => {
                         )} />
                     <Column
                         title="Action"
-                        key="action"
+                        key="actions"
             render={(_, record: Vacancies) => (
                 <Space size="middle">
                     <Button onClick={() => navigate(`/${record.id}`)}>
@@ -177,6 +177,7 @@ export const MyVacancies: React.FC = () => {
                 </Space>
             )}/>
             </Table>
+)}
         </div>
         </div>
     </>
