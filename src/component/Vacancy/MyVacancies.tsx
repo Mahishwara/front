@@ -23,7 +23,7 @@ export const MyVacancies: React.FC = () => {
                 const response = await axios.get(import.meta.env.VITE_BASE_URL + `api/auth/me/?token=${token}`, {
                     headers: { 'Content-Type': 'application/json' }
                 });
-                setUserData(response.data);
+                setUserData(response.data.data);
             } catch (err) {
                 setProfileError("Не удалось загрузить данные профиля.");
                 console.error("Ошибка при получении данных пользователя:", err);

@@ -62,7 +62,7 @@ export const Profile: React.FC = () => {
                             headers: { 'Content-Type': 'application/json' },
                             url: import.meta.env.VITE_BASE_URL + `api/students/${userData.idbyrole}`
                         });
-                        setStudentData(response.data);
+                        setStudentData(response.data.data);
                     } catch (err) {
                         setError('Не удалось загрузить данные студента.');
                         console.error("Ошибка при получении данных студента:", err);
@@ -78,7 +78,7 @@ export const Profile: React.FC = () => {
                             headers: { 'Content-Type': 'application/json' },
                             url: import.meta.env.VITE_BASE_URL + `api/employers/${userData.idbyrole}`
                         });
-                        setEmployerData(response.data);
+                        setEmployerData(response.data.data);
                     } catch (err) {
                         setError('Не удалось загрузить данные работодателя.');
                         console.error("Ошибка при получении данных работодателя:", err);

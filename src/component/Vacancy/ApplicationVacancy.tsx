@@ -26,11 +26,11 @@ export const VacancyApplications: React.FC<{
                 const response = await axios.get(import.meta.env.VITE_BASE_URL + `api/applications?id_vacancy=${resourceId}`, {
                     headers: { 'Content-Type': 'application/json' }
                 });
-                setApplicationData(response.data);
+                setApplicationData(response.data.data);
 
-                const studentPromises = response.data.map(async (application: Application) => {
+                const studentPromises = response.data.data.map(async (application: Application) => {
                     const studentResponse = await axios.get(import.meta.env.VITE_BASE_URL + `api/students/${application.id_student}`);
-                    return { id: application.id_student, data: studentResponse.data };
+                    return { id: application.id_student, data: studentResponse.data.data };
                 });
 
                 const studentsData = await Promise.all(studentPromises);
@@ -53,7 +53,7 @@ export const VacancyApplications: React.FC<{
                 const response = await axios.get(import.meta.env.VITE_BASE_URL + `api/statuses/`, {
                     headers: { 'Content-Type': 'application/json' }
                 });
-                setStatuses(response.data);
+                setStatuses(response.data.data);
             } catch (err) {
                 setError("Не удалось загрузить данные статусов.");
                 console.error("Ошибка при получении данных статусов:", err);
@@ -69,7 +69,7 @@ export const VacancyApplications: React.FC<{
                     headers: { 'Content-Type': 'application/json' }
                 });
                 const skillsMap: { [key: number]: LevelSkill} = {};
-                response.data.forEach((skill: LevelSkill) => {
+                response.data.data.forEach((skill: LevelSkill) => {
                     skillsMap[skill.id] = skill;
                 });
                 setSkills(skillsMap);

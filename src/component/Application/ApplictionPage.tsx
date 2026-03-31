@@ -19,12 +19,12 @@ const ApplicationsPage: FC = () => {
         const fetchStudentId = async () => {
             try {
                 const response = await axios.get(import.meta.env.VITE_BASE_URL + `api/auth/me/?token=${token}`);
-                setStudentId(response.data.student_id);
+                setStudentId(response.data.data.student_id);
                 if (response.data.role !== 1) {
                     message.error('Доступ запрещен');
                 }
                 else {
-                    setStudentId(response.data.idbyrole);
+                    setStudentId(response.data.data.idbyrole);
                 }
             } catch (error) {
                 message.error('Ошибка при получении данных студента');
@@ -39,7 +39,7 @@ const ApplicationsPage: FC = () => {
             const fetchApplications = async () => {
                 try {
                     const response = await axios.get(import.meta.env.VITE_BASE_URL + `api/applications/?id_student=${studentId}`);
-                    setApplications(response.data);
+                    setApplications(response.data.data);
                 } catch (error) {
                     message.error('Ошибка при получении заявок');
                 }
@@ -55,7 +55,7 @@ const ApplicationsPage: FC = () => {
                 const response = await axios.get(import.meta.env.VITE_BASE_URL + `api/statuses/`, {
                     headers: { 'Content-Type': 'application/json' }
                 });
-                setStatuses(response.data);
+                setStatuses(response.data.data);
             } catch (err) {
                 setError("Не удалось загрузить данные статусов.");
                 console.error("Ошибка при получении данных статусов:", err);
@@ -71,7 +71,7 @@ const ApplicationsPage: FC = () => {
                     const vacancyId = application.id_vacancy;
                     try {
                         const response = await axios.get(import.meta.env.VITE_BASE_URL + `api/vacancies/?id=${vacancyId}`);
-                        return { ...application, vacancy: response.data };
+                        return { ...application, vacancy: response.data.data };
                     } catch (error) {
                         message.error(`Ошибка при получении вакансии для заявки с ID: ${application.id}`);
                         return application;

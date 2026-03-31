@@ -21,8 +21,8 @@ export const LoginForm: React.FC = () => {
 				url: import.meta.env.VITE_BASE_URL + `api/auth/login/`,
 				data: resource,
 			});
-            if (responce.status === 200) {
-                const token = responce.data.access_token;
+            if (responce.data.status === 200) {
+                const token = responce.data.data.access_token;
                 Cookies.set('token', token, {
                     path: '/',
                     secure: true
