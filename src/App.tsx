@@ -2,12 +2,11 @@ import {
 	MutationCache,
 	QueryClient,
 	QueryClientProvider,
+	QueryCache,
 } from "@tanstack/react-query";
-import { message } from "antd";
-import type { AxiosError } from "axios";
 import { BrowserRouter, Route, Routes, useParams } from "react-router-dom";
 import "./App.css";
-import { ProblemDetails } from "./types";
+import { handleApiError } from "./utils/errorHandler";
 import { VacancyList } from "./component/Vacancy/VacancyList";
 import { VacancyForm } from "./component/Vacancy/VacancyForm";
 import { Profile } from "./component/User/Profile";
@@ -22,35 +21,31 @@ import { VacancyApplications } from "./component/Vacancy/ApplicationVacancy";
 
 
 const queryClient = new QueryClient({
+	queryCache: new QueryCache({
+		onError: (error) => {
+			handleApiError(error, "Query cache error");
+		},
+	}),
 	defaultOptions: {
 		queries: {
 			retry: false,
+			onError: (error) => {
+				handleApiError(error, "Query error");
+			},
 		},
 		mutations: {
 			retry: false,
 			onError: (error) => {
-				console.error(error);
+				handleApiError(error, "Mutation error");
 			},
 		},
 	},
 	mutationCache: new MutationCache({
 		onError: (error, variables, context, mutation) => {
-			try {
-				if (mutation.options.onError)
-					mutation.options.onError(error, variables, context);
-			} catch (e) {
-				const axiosError = error as AxiosError;
-				const problemDetails = axiosError.response?.data as ProblemDetails;
-				if (problemDetails.title)
-					message.error({ content: problemDetails.title });
-				else {
-					
-				}
-			} finally {
-				mutation.state.context = mutation.state.context || {};
-				const c = mutation.state.context as { errorHandled?: boolean };
-				c.errorHandled = true;
+			if (mutation.options.onError) {
+				mutation.options.onError(error, variables, context);
 			}
+			handleApiError(error, "Mutation cache error");
 		},
 	}),
 });

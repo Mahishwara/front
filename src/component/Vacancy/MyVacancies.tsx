@@ -2,11 +2,12 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { Button, Space, Table, message } from "antd";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { Vacancies, User, LevelSkill } from "../../types";
+import { Vacancies, User, LevelSkill, APIErrorResponse } from "../../types";
 import { Header } from "../Base/Header";
 import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import styles from "./Vacancy.module.css";
+import { handleApiError } from "../../utils/errorHandler";
 
 const { Column } = Table;
 
@@ -35,11 +36,31 @@ export const MyVacancies: React.FC = () => {
     const { data: resources } = useQuery<Vacancies[]>({
         queryKey: ["resources"],
         queryFn: async () => {
-            if (userData && userData.role === 2) {
-                const res = await axios.get<Vacancies[]>(import.meta.env.VITE_BASE_URL + `api/vacancies/?id_employer=${userData.idbyrole}`);
-                return res.data;
+            if (!userData) {
+                return [];
             }
-            message.error('У вас нет доступа к управлению вакансиями');
+
+            if (userData.role !== 2) {
+                const apiError = {
+                    error_type: "authorization",
+                    error_code: "AUTHORIZATION_403",
+                    user_message: "У вас нет доступа к управлению вакансиями",
+                    developer_message: "Доступ к данным вакансий разрешён только работодателям",
+                    reason: "Пользователь не является работодателем",
+                    solution: "Войдите под аккаунтом работодателя или обратитесь к администратору",
+                    details: { role: userData.role, expected: 2 },
+                };
+                type APIErrorResponseExt = { response?: { status: number; data: APIErrorResponse } };
+                const err = new Error(apiError.user_message) as Error & APIErrorResponseExt;
+                err.response = { status: 403, data: apiError };
+                throw err;
+            }
+
+            const res = await axios.get<Vacancies[]>(import.meta.env.VITE_BASE_URL + `api/vacancies/?id_employer=${userData.idbyrole}`);
+            return res.data;
+        },
+        onError: (error) => {
+            handleApiError(error, "MyVacancies: загрузка вакансий");
         },
         refetchInterval: 5000,
     });
@@ -71,9 +92,13 @@ export const MyVacancies: React.FC = () => {
                 message.success('Вакансия удалена');
             } catch (err) {
                 console.error("Ошибка при удалении вакансии:", err);
-                message.error('Ошибка при удалении вакансии');
+                handleApiError(err, "MyVacancies: удаление вакансии");
+                throw err;
             }
-        }
+        },
+        onError: (error) => {
+            handleApiError(error, "MyVacancies: ошибка удаления");
+        },
     });
 
     const navigate = useNavigate();

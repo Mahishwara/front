@@ -115,3 +115,13 @@ export type ProblemDetails = {
 	errors?: Record<string, string[]>;
 	traceId: string;
 };
+
+export type APIErrorResponse = {
+	error_type: string;
+	error_code: string;
+	user_message: string;
+	developer_message: string;
+	reason: string;
+	solution: string;
+	details?: Record<string, unknown> | null;
+};
