@@ -166,7 +166,7 @@ export const StudentData = () => {
 
                     <div className={styles.formActions}>
                         <Button onClick={() => navigate('/profile')}>Отмена</Button>
-                        <Button type="primary" htmlType="submit" className={styles.buttonPrimary}>
+                        <Button htmlType="submit" className={styles.buttonPrimary}>
                             Сохранить
                         </Button>
                     </div>
