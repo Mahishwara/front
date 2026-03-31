@@ -23,7 +23,7 @@ export const StudentData = () => {
                     headers: { 'Content-Type': 'application/json' },
                     url: import.meta.env.VITE_BASE_URL + `api/auth/me/?token=${token}`
                 });
-                setUserData(response.data);
+                setUserData(response.data.data);
             } catch (err) {
                 setError('Не удалось загрузить данные профиля.');
                 console.error("Ошибка при получении данных пользователя:", err);
