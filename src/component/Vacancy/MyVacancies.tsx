@@ -33,7 +33,7 @@ export const MyVacancies: React.FC = () => {
     }, [token]);
 
     // Fetch vacancies based on employer ID
-    const { data: resources } = useQuery<Vacancies[]>({
+    const { data: resources, isError, error } = useQuery<Vacancies[]>({
         queryKey: ["resources"],
         queryFn: async () => {
             if (!userData) {
@@ -59,11 +59,13 @@ export const MyVacancies: React.FC = () => {
             const res = await axios.get<Vacancies[]>(import.meta.env.VITE_BASE_URL + `api/vacancies/?id_employer=${userData.idbyrole}`);
             return res.data;
         },
-        onError: (error) => {
-            handleApiError(error, "MyVacancies: загрузка вакансий");
-        },
         refetchInterval: 5000,
     });
+
+    // Handle query error locally
+    if (isError) {
+        handleApiError(error, "MyVacancies: загрузка вакансий");
+    }
 
     // Fetch skills data
     useEffect(() => {

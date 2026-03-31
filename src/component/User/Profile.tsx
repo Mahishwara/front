@@ -207,7 +207,6 @@ export const Profile: React.FC = () => {
                         </p>
                         <div style={{ display: "flex", gap: "16px", flexDirection: "column" }}>
                             <Button 
-                                type="primary" 
                                 size="large"
                                 onClick={handleStudentRedirect}
                             >

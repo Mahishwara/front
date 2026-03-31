@@ -92,7 +92,7 @@ export const LoginForm: React.FC = () => {
 						</Form.Item>
 						
 						<Form.Item>
-							<Button type="primary" htmlType="submit" className={styles.submitButton} block>
+							<Button htmlType="submit" className={styles.submitButton} block>
 								Войти
 							</Button>
 						</Form.Item>
