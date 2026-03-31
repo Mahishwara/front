@@ -29,15 +29,9 @@ const queryClient = new QueryClient({
 	defaultOptions: {
 		queries: {
 			retry: false,
-			onError: (error) => {
-				handleApiError(error, "Query error");
-			},
 		},
 		mutations: {
 			retry: false,
-			onError: (error) => {
-				handleApiError(error, "Mutation error");
-			},
 		},
 	},
 	mutationCache: new MutationCache({

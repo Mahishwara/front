@@ -14,7 +14,7 @@ const { Column } = Table;
 export const MyVacancies: React.FC = () => {
     const [userData, setUserData] = useState<User | undefined>(undefined);
     const [skills, setSkills] = useState<{ [key: string]: LevelSkill | null }>({});
-    const [error, setError] = useState<string>('');
+    const [profileError, setProfileError] = useState<string>('');
     const token = Cookies.get('token');
 
     useEffect(() => {
@@ -25,7 +25,7 @@ export const MyVacancies: React.FC = () => {
                 });
                 setUserData(response.data);
             } catch (err) {
-                setError("Не удалось загрузить данные профиля.");
+                setProfileError("Не удалось загрузить данные профиля.");
                 console.error("Ошибка при получении данных пользователя:", err);
             }
         };
@@ -33,7 +33,7 @@ export const MyVacancies: React.FC = () => {
     }, [token]);
 
     // Fetch vacancies based on employer ID
-    const { data: resources, isError, error } = useQuery<Vacancies[]>({
+    const { data: resources } = useQuery<Vacancies[]>({
         queryKey: ["resources"],
         queryFn: async () => {
             if (!userData) {
@@ -62,11 +62,6 @@ export const MyVacancies: React.FC = () => {
         refetchInterval: 5000,
     });
 
-    // Handle query error locally
-    if (isError) {
-        handleApiError(error, "MyVacancies: загрузка вакансий");
-    }
-
     // Fetch skills data
     useEffect(() => {
         const fetchSkillsData = async () => {
@@ -80,7 +75,7 @@ export const MyVacancies: React.FC = () => {
                 });
                 setSkills(skillsMap);
             } catch (err) {
-                setError("Не удалось загрузить данные навыков.");
+                setProfileError("Не удалось загрузить данные навыков.");
                 console.error("Ошибка при получении данных навыков:", err);
             }
         };
@@ -104,8 +99,8 @@ export const MyVacancies: React.FC = () => {
     });
 
     const navigate = useNavigate();
-    if (error) {
-        return <div>{error}</div>;
+    if (profileError) {
+        return <div>{profileError}</div>;
     }
 
     return (
