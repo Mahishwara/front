@@ -26,6 +26,7 @@ export const Profile: React.FC = () => {
                     url: import.meta.env.VITE_BASE_URL + `api/auth/me/?token=${token}`
                 });
                 setUserData(response.data);
+                console.log("Полученные данные пользователя:", response.data);
             } catch (err) {
                 setError('Не удалось загрузить данные профиля.');
                 console.error("Ошибка при получении данных пользователя:", err);
