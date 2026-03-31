@@ -128,27 +128,6 @@ export const EmployerData = () => {
                         </div>
                     </div>
 
-                    <div className={styles.formSection}>
-                        <h2 className={styles.sectionTitle}>Требования к кандидатам</h2>
-                        <div className={styles.formRow}>
-                            <div className={styles.formGroup}>
-                                <label className={styles.formLabel}>Требуемый уровень навыков</label>
-                                <Form.Item
-                                    name="level_skill"
-                                    rules={[{ required: true, message: 'Пожалуйста, выберите уровень навыков!' }]}
-                                >
-                                    <Select className={styles.formSelect} placeholder="Выберите уровень">
-                                        {skills.map(skill => (
-                                            <Select.Option key={skill.id} value={skill.id}>
-                                                {skill.level}
-                                            </Select.Option>
-                                        ))}
-                                    </Select>
-                                </Form.Item>
-                            </div>
-                        </div>
-                    </div>
-
                     <div className={styles.formActions}>
                         <Button onClick={() => navigate('/profile')}>Отмена</Button>
                         <Button type="primary" htmlType="submit" className={styles.buttonPrimary}>
