@@ -53,7 +53,7 @@ export const Profile: React.FC = () => {
 
     
     useEffect(() => {
-        console.log("Данные пользователя для загрузки профиля:", userData, userData.role);
+        console.log("Данные пользователя для загрузки профиля:", userData);
         if (userData) {
             if (userData.role === 1) {
                 const fetchStudentData = async () => {
