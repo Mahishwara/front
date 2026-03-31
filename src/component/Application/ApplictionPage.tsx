@@ -20,7 +20,7 @@ const ApplicationsPage: FC = () => {
             try {
                 const response = await axios.get(import.meta.env.VITE_BASE_URL + `api/auth/me/?token=${token}`);
                 setStudentId(response.data.data.student_id);
-                if (response.data.role !== 1) {
+                if (response.data.data.role !== 1) {
                     message.error('Доступ запрещен');
                 }
                 else {
